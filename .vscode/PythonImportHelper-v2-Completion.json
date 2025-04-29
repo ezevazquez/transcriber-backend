@@ -1,0 +1,181 @@
+[
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "AudioSegment",
+        "importPath": "pydub",
+        "description": "pydub",
+        "isExtraImport": true,
+        "detail": "pydub",
+        "documentation": {}
+    },
+    {
+        "label": "whisper",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "whisper",
+        "description": "whisper",
+        "detail": "whisper",
+        "documentation": {}
+    },
+    {
+        "label": "FastAPI",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "UploadFile",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "File",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "BackgroundTasks",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "FileResponse",
+        "importPath": "fastapi.responses",
+        "description": "fastapi.responses",
+        "isExtraImport": true,
+        "detail": "fastapi.responses",
+        "documentation": {}
+    },
+    {
+        "label": "convert_to_wav",
+        "importPath": "app.utils",
+        "description": "app.utils",
+        "isExtraImport": true,
+        "detail": "app.utils",
+        "documentation": {}
+    },
+    {
+        "label": "save_file_temporarily",
+        "importPath": "app.utils",
+        "description": "app.utils",
+        "isExtraImport": true,
+        "detail": "app.utils",
+        "documentation": {}
+    },
+    {
+        "label": "transcribe_audio",
+        "importPath": "app.whisper_transcriber",
+        "description": "app.whisper_transcriber",
+        "isExtraImport": true,
+        "detail": "app.whisper_transcriber",
+        "documentation": {}
+    },
+    {
+        "label": "get_status",
+        "importPath": "app.whisper_transcriber",
+        "description": "app.whisper_transcriber",
+        "isExtraImport": true,
+        "detail": "app.whisper_transcriber",
+        "documentation": {}
+    },
+    {
+        "label": "uuid",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "uuid",
+        "description": "uuid",
+        "detail": "uuid",
+        "documentation": {}
+    },
+    {
+        "label": "save_file_temporarily",
+        "kind": 2,
+        "importPath": "app.utils",
+        "description": "app.utils",
+        "peekOfCode": "def save_file_temporarily(upload_file, file_id):\n    temp_path = f\"/tmp/{file_id}_{upload_file.filename}\"\n    with open(temp_path, \"wb\") as buffer:\n        buffer.write(upload_file.file.read())\n    return temp_path\ndef convert_to_wav(input_path):\n    output_path = input_path.rsplit(\".\", 1)[0] + \".wav\"\n    audio = AudioSegment.from_file(input_path)\n    audio.export(output_path, format=\"wav\")\n    return output_path",
+        "detail": "app.utils",
+        "documentation": {}
+    },
+    {
+        "label": "convert_to_wav",
+        "kind": 2,
+        "importPath": "app.utils",
+        "description": "app.utils",
+        "peekOfCode": "def convert_to_wav(input_path):\n    output_path = input_path.rsplit(\".\", 1)[0] + \".wav\"\n    audio = AudioSegment.from_file(input_path)\n    audio.export(output_path, format=\"wav\")\n    return output_path",
+        "detail": "app.utils",
+        "documentation": {}
+    },
+    {
+        "label": "transcribe_audio",
+        "kind": 2,
+        "importPath": "app.whisper_transcriber",
+        "description": "app.whisper_transcriber",
+        "peekOfCode": "def transcribe_audio(wav_path, file_id, tasks):\n    try:\n        result = model.transcribe(wav_path, word_timestamps=True)\n        speakers = simple_speaker_segmentation(result)\n        output_txt = f\"/tmp/{file_id}.txt\"\n        with open(output_txt, \"w\", encoding=\"utf-8\") as f:\n            for speaker, text in speakers:\n                f.write(f\"{speaker}: {text}\\n\")\n        tasks[file_id][\"status\"] = \"done\"\n        tasks[file_id][\"txt_file\"] = output_txt",
+        "detail": "app.whisper_transcriber",
+        "documentation": {}
+    },
+    {
+        "label": "simple_speaker_segmentation",
+        "kind": 2,
+        "importPath": "app.whisper_transcriber",
+        "description": "app.whisper_transcriber",
+        "peekOfCode": "def simple_speaker_segmentation(transcription):\n    segments = []\n    current_speaker = 1\n    last_end = 0\n    for segment in transcription['segments']:\n        if segment['start'] - last_end > 5:\n            current_speaker += 1\n        segments.append((f\"Speaker {current_speaker}\", segment['text'].strip()))\n        last_end = segment['end']\n    return segments",
+        "detail": "app.whisper_transcriber",
+        "documentation": {}
+    },
+    {
+        "label": "get_status",
+        "kind": 2,
+        "importPath": "app.whisper_transcriber",
+        "description": "app.whisper_transcriber",
+        "peekOfCode": "def get_status(file_id, tasks):\n    return tasks.get(file_id, {\"status\": \"not_found\"})",
+        "detail": "app.whisper_transcriber",
+        "documentation": {}
+    },
+    {
+        "label": "model",
+        "kind": 5,
+        "importPath": "app.whisper_transcriber",
+        "description": "app.whisper_transcriber",
+        "peekOfCode": "model = whisper.load_model(\"medium\")\ndef transcribe_audio(wav_path, file_id, tasks):\n    try:\n        result = model.transcribe(wav_path, word_timestamps=True)\n        speakers = simple_speaker_segmentation(result)\n        output_txt = f\"/tmp/{file_id}.txt\"\n        with open(output_txt, \"w\", encoding=\"utf-8\") as f:\n            for speaker, text in speakers:\n                f.write(f\"{speaker}: {text}\\n\")\n        tasks[file_id][\"status\"] = \"done\"",
+        "detail": "app.whisper_transcriber",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "app = FastAPI()\ntasks = {}\n@app.post(\"/upload/\")\nasync def upload_audio(background_tasks: BackgroundTasks, file: UploadFile = File(...)):\n    file_id = str(uuid.uuid4())\n    temp_input_path = save_file_temporarily(file, file_id)\n    wav_path = convert_to_wav(temp_input_path)\n    tasks[file_id] = {\"status\": \"processing\", \"txt_file\": None}\n    background_tasks.add_task(transcribe_audio, wav_path, file_id, tasks)\n    return {\"file_id\": file_id}",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "tasks",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "tasks = {}\n@app.post(\"/upload/\")\nasync def upload_audio(background_tasks: BackgroundTasks, file: UploadFile = File(...)):\n    file_id = str(uuid.uuid4())\n    temp_input_path = save_file_temporarily(file, file_id)\n    wav_path = convert_to_wav(temp_input_path)\n    tasks[file_id] = {\"status\": \"processing\", \"txt_file\": None}\n    background_tasks.add_task(transcribe_audio, wav_path, file_id, tasks)\n    return {\"file_id\": file_id}\n@app.get(\"/status/{file_id}\")",
+        "detail": "main",
+        "documentation": {}
+    }
+]
