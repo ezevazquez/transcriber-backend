@@ -156,7 +156,7 @@
         "kind": 5,
         "importPath": "app.whisper_transcriber",
         "description": "app.whisper_transcriber",
-        "peekOfCode": "model = whisper.load_model(\"base\")\ndef transcribe_audio(wav_path, file_id, tasks):\n    try:\n        result = model.transcribe(wav_path, word_timestamps=True)\n        speakers = simple_speaker_segmentation(result)\n        output_txt = f\"/tmp/{file_id}.txt\"\n        with open(output_txt, \"w\", encoding=\"utf-8\") as f:\n            for speaker, text in speakers:\n                f.write(f\"{speaker}: {text}\\n\")\n        tasks[file_id][\"status\"] = \"done\"",
+        "peekOfCode": "model = whisper.load_model(\"tiny\")\ndef transcribe_audio(wav_path, file_id, tasks):\n    try:\n        result = model.transcribe(wav_path, word_timestamps=True)\n        speakers = simple_speaker_segmentation(result)\n        output_txt = f\"/tmp/{file_id}.txt\"\n        with open(output_txt, \"w\", encoding=\"utf-8\") as f:\n            for speaker, text in speakers:\n                f.write(f\"{speaker}: {text}\\n\")\n        tasks[file_id][\"status\"] = \"done\"",
         "detail": "app.whisper_transcriber",
         "documentation": {}
     },

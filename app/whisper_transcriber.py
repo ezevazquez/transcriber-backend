@@ -1,7 +1,7 @@
 import whisper
 import os
 
-model = whisper.load_model("base")
+model = whisper.load_model("tiny")
 
 def transcribe_audio(wav_path, file_id, tasks):
     try:
