@@ -7,6 +7,5 @@ __pycache__/
 *.wav
 *.mp3
 *.m4a
-*.txt
 temp_uploads/
 /.vscode
